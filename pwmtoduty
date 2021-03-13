@@ -1,0 +1,24 @@
+//Anton Voronov, aka ravenspired
+//2021-03-13
+//Convert PWM from a hobby receiver to control a PC Fan.
+//Make sure to modify the variables as needed.
+
+int fanOut = 5;//connect blue fan wire to pin 5
+int fanIn=7;//connect pwm channel to pin 7
+
+int lowerChannelBound = 1000;//change this to match your receiver
+int higherChannelBound = 2000//change this to match your receiver
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(fanOut, OUTPUT);//set up pins
+    pinMode(fanIn, INPUT);
+}
+
+void loop() {
+    
+    
+    Serial.println(pulseIn(fanIn, HIGH));//for debug
+    int fanSpeed = map(pulseIn(fanIn, HIGH), lowerChannelBound, higherChannelBound, 0, 255);//converts read value to pwm
+    analogWrite(fanOut, fanSpeed);//sends pwm pulse
+}
